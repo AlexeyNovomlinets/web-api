@@ -4,11 +4,11 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Some Web APIs</title>
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/league.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/monokai.css">
@@ -25,8 +25,492 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+
+				<section data-transition="concave">
+					<h1>Some Web API</h1>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/webaudio/">Web Audio API</h2></a>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=audio-api">Support</a></h3>
+						<img src="./img/support/audio.PNG" style="width: 90%; height: 90;">
+						<pre><code class="javascript" style="font-size: 14px;">if (!window.AudioContext) {
+	// API not supported :(
+} else {
+	// API supported! Let's start the fun :)
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<h3>Sources:</h3>
+						<ul>
+							<li>audioBufferSourceNode</li>
+							<li>mediaElementAudioSourceNode</li>
+							<li>mediaStreamAudioSourceNode</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>Destinations:</h3>
+						<ul>
+							<li>context.destination</li>
+							<li>mediaStreamAudioDestinationNode</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h4>Schema</h4>
+						<img src="./img/audio-scheme.PNG">
+						<pre><code class="javascript" style="font-size: 16px;">source1.connect(node1); 
+source2.connect(node3); 
+node1.connect(node4); 
+node1.connect(node2); 
+node2.connect(destination); 
+node3.connect(node1); 
+node4.connect(destination); 
+node4.connect(node3);
+</code></pre>
+					</section>
+					<section data-transition="concave">
+						<h3>Modules:</h3>
+						<ul style="font-size: 32px;">
+							<li>Gain</li>
+							<li>Delay</li>
+							<li>Convolution</li>
+							<li>Filter</li>
+							<li>Analyser</li>           
+							<li>Generator</li>
+							<li>...</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">const context = new AudioContext();
+const source = context.createBufferSource();
+source.buffer = getBuffer();
+const destination = context.destination;
+
+const gainNode = context.createGain();
+const delayNode = context.createDelay();
+gainNode.gain.value = 0.5;
+delayNode.delayTime.value = 0.75;
+
+source.connect(gainNode);
+gainNode.connect(delayNode);
+delayNode.connect(gainNode);
+gainNode.connect(destination);
+source.start();</code></pre>
+						<a href="http://webaudiodemos.appspot.com/">Demo</a>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://wicg.github.io/speech-api/">Web Speech API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h2><a href="https://wicg.github.io/speech-api/#tts-section">Speech Synthesis API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=speech-synthesis">Support</a></h3>
+						<img src="./img/support/speech.PNG" style="width: 90%; height: 90;">
+						<pre><code class="javascript" style="font-size: 16px;">if (!window.speechSynthesis) {
+	// API not supported :(
+} else {
+	// API supported! Let's start the fun :)
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p>SpeechSynthesis:</p>
+						<ul style="font-size: 28px;">
+							<li>speak(utterance)</li>
+							<li>stop()</li>
+							<li>pause()</li>
+							<li>resume()</li>
+						</ul>
+						<p>SpeechSynthesisUtterance:</p>
+						<ul style="font-size: 28px;">
+							<li>lang</li>
+							<li>pitch</li>
+							<li>rate</li>
+							<li>text</li>
+							<li>voice</li>         
+							<li>volume</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">const text = textContent;
+const utterance = new SpeechSynthesisUtterance(text);
+window.speechSynthesis.speak(utterance);</code></pre>
+						<a href="https://browser-api.netlify.com/speech/speech-synthesis">Demo</a>
+					</section>
+
+					<section data-transition="concave">
+						<h2><a href="https://wicg.github.io/speech-api/#speechreco-section">Speech Recognition API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=speech-recognition">Support</a></h3>
+						<img src="./img/support/speech-recognition.PNG" style="width: 80%; height: 80%;">
+						<pre><code class="javascript" style="font-size: 16px;">if (!window.SpeechRecognition) {
+	// API not supported :(
+} else {
+	// API supported! Let's start the fun :)
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p>SpeechRecognition:</p>
+						<ul style="font-size: 28px;">
+							<li>continuous
+							<li>lang
+							<li>interimResults
+							<hr>
+							<li>start()
+							<li>stop()
+							<hr>
+							<li>onstart()
+							<li>onresult()
+							<li>onerror()
+							<li>onend()
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript">const recognizer = new window.SpeechRecognition();
+recognizer.continuous = true;
+recognizer.interimResults = true;
+recognizer.onresult = (event) => {
+	let textContent = '';
+	Array.from(event.results).forEach(res => {
+		if (res.isFinal) {
+			textContent += `${res[0].transcript}\n`;
+		}
+	});
+};
+recognizer.start();</code></pre>
+						<a href="https://www.audero.it/demo/web-speech-api-demo.html">Demo</a>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/netinfo-api/">Network Information API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=netinfo">Support</a></h3>
+						<img src="./img/support/network.PNG" style="width: 90%; height: 90%;">
+						<pre><code class="javascript" style="font-size: 16px;">if (!window.navigator.connection) {
+	// API not supported :(
+} else {
+	// API supported! Let's start the fun :)
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p>Connection:</p>
+						<ul style="font-size: 28px;">
+							<li>type</li>
+							<li>downlink</li>
+							<li>rtt</li>
+							<li>downlinkMax</li>
+							<li>effectiveType</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">window.navigator.connection.addEventListener('change',
+	() => { console.log(window.navigator.connection.type) }
+);</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/notifications/">Web Notification API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=notifications">Support</a></h3>
+						<img src="./img/support/notifications.PNG" style="width: 90%; height: 90%;">
+						<pre><code class="javascript" style="font-size: 16px;">if ('Notification' in window) {
+	// API supported
+} else {
+	// API not supported
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p>Permission:</p>
+						<pre><code class="javascript" style="font-size: 20px;">Notification.requestPermission().then((permission) => { ... });</code></pre>
+						<ul style="font-size: 24px;">
+							<li>default</li>
+							<li>granted</li>
+							<li>denied</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<p>Notification:</p>
+						<pre><code class="javascript" style="font-size: 16px;">const notification = new Notification(title, options);</code></pre>
+						<p style="font-size: 28px;">Properties:</p>
+						<ul style="font-size: 24px;">
+							<li>title</li>
+							<li>options
+								<ul style="font-size: 24px;">
+									<li>body</li>
+									<li>dir</li>
+									<li>lang</li>
+									<li>tag</li>
+									<li>icon</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">if (!("Notification" in window)) {
+	alert("This browser does not support desktop notification");
+} else if (Notification.permission === "granted") {
+	const notification = new Notification("Hi there!");
+} else if (Notification.permission !== 'denied') {
+	Notification.requestPermission((permission) => {
+		if (permission === "granted") {
+			const notification = new Notification("Hi there!");
+		}
+	});
+}</code></pre>
+						<a href="https://www.audero.it/demo/web-notifications-api-demo.html">Demo</a>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/page-visibility/">Page Visibility API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=pagevisibility">Support</a></h3>
+						<img src="./img/support/visibility.PNG">
+					</section>
+					<section data-transition="concave">
+						<p style="font-size: 42px;">VisibilityState:</p>
+						<ul style="font-size: 28px;">
+							<li>visible</li>
+							<li>hidden</li> 
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">document.addEventListener("visibilitychange", 
+	() => { console.log(document.visibilityState); }
+);</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/battery-status/">Battery Status API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=battery-status">Support</a></h3>
+						<img src="./img/support/battery.PNG" style="width: 80%; height: 80%;">
+						<pre><code class="javascript" style="font-size: 16px;">if (window.navigator.getBattery()) {
+	// Grab the battery's information!
+} else {
+	// Not supported
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p style="font-size: 42px;">BatteryManager:</p>
+						<ul style="font-size: 28px;">
+							<li>charging</li>	
+							<li>chargingTime</li>
+							<li>dischargingTime</li>
+							<li>level</li>
+						</ul>
+						<p style="font-size: 42px;">Events:</p>
+						<ul style="font-size: 28px;">
+							<li>onchargingchange()</li>
+							<li>onchargingtimechange()</li>
+							<li>ondischargingtimechange()</li>
+							<li>onlevelchange()</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">let batteryIsCharging = false;
+
+navigator.getBattery().then((battery) => {
+	batteryIsCharging = battery.charging;
+
+	battery.addEventListener('chargingchange',() => {
+		batteryIsCharging = battery.charging;
+	});
+});</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/screen-orientation/">Screen Orientation API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=screen-orientation">Support</a></h3>
+						<img src="./img/support/screen-orientation.PNG" style="width: 80%; height: 80%;">
+						<pre><code class="javascript" style="font-size: 16px;">if ('orientation' in screen) {
+	// API supported, yeah!
+} else {
+	// API not supported :(
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p>Orientation:</p>
+						<ul style="font-size: 28px;">
+							<li>type
+								<ul>
+									<li>portrait-primary</li>
+									<li>portrait-secondary</li>
+									<li>landscape-primary</li>
+									<li>landscape-secondary</li>
+								</ul>
+							</li>
+							<hr>
+							<li>lock(orientation)</li>
+							<li>unlock()</li>
+							<hr>
+							<li>onchange()</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">window.screen.orientation.lock('landscape-primary');
+window.screen.orientation.unlock();
+window.screen.addEventListener('change', 
+	() => { console.log(window.screen.orientation.type); 
+});</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/orientation-event/">Device Orientation API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=deviceorientation">Support</a></h3>
+						<img src="./img/support/device-orientation.PNG" style="width: 100%; height: 100%;">
+					</section>
+					<section data-transition="concave">
+						<h3>Detecting support:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">if (window.DeviceOrientationEvent) {
+	// We can listen for change in the device's orientation...
+}
+
+if (window.DeviceMotionEvent) {
+	// We can listen for change in the device's orientation...
+}
+
+if (!('oncompassneedscalibration' in window)) {
+	// Event supported
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<img src="./img/orientation.png" style="width: 50%; height: 50%;">
+						<p style="font-size: 28px;">Orientation Event:</p>
+						<ul style="font-size: 24px;">
+							<li>deviceorientation
+								<ul style="font-size: 22px;">
+									<li>alpha</li>
+									<li>beta</li>
+									<li>gamma</li>
+								</ul>
+							</li>
+							<li>deviceorientation
+								<ul>
+									<li>acceleration</li>
+									<li>accelerationIncludingGravity</li>
+									<li>rotationRate</li>
+									<li>interval</li>
+								</ul>
+							</li>
+							<li>compassneedscalibration</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 14px;">window.addEventListener('deviceorientation', 
+	(e) => {
+		console.log('a = '+e.alpha); 
+		console. log('b = '+e.beta);
+		console. log('g = '+e.gamma);
+});
+window.addEventListener('devicemotion', 
+	(e) => {
+		console.log('x = '+Math.round(e.acceleration.x)); 
+		console. log('y = '+Math.round(e.acceleration.y));
+		console. log('z = '+Math.round(e.acceleration.z));
+});
+window.addEventListener('compassneedscalibration',
+	(e) => { alert('Compass needs calibrating!'); }
+);</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/ambient-light/">Ambient Light API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=ambient-light">Support</a></h3>
+						<img src="./img/support/light.PNG" style="width: 80%; height: 80%;">
+						<pre><code class="javascript" style="font-size: 16px;">if ('ondevicelight' in window) {
+	// API supported. How much light is there?
+} else {
+	// API not supported :(
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<p style="font-size: 42px;">Light events:</p>
+						<ul style="font-size: 28px;">
+							<li>deviceLight</li>
+							<li>lightLevel</li>
+						</ul>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">window.addEventListener('devicelight', 
+	(e) =>  { alert('devicelight:' + e.value); }
+);
+
+window.addEventListener('lightlevel',
+	(e) => { alert('lightlevel: ' + e.value); }
+});</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<section data-transition="concave">
+						<h2><a href="https://www.w3.org/TR/vibration/">Vibration API</a></h2>
+					</section>
+					<section data-transition="concave">
+						<h3><a href="https://caniuse.com/#feat=vibration">Support</a></h3>
+						<img src="./img/support/vibration.PNG" style="width: 90%; height: 90%;">
+						<pre><code class="javascript" style="font-size: 16px;">if (window.navigator.vibrate) {
+	// Shake that device!
+} else {
+	// Not supported
+}</code></pre>
+					</section>
+					<section data-transition="concave">
+						<h3>How to use:</h3>
+						<pre><code class="javascript" style="font-size: 16px;">navigator.vibrate(1000);
+navigator.vibrate([1000, 500, 1000, 500, 2000]);
+
+navigator.vibrate(0);
+navigator.vibrate([]);</code></pre>
+					</section>
+				</section>
+
+				<section data-transition="concave">
+					<h3>Thank you for attention!</h3>
+					<p style="color: aquamarine;">Presentation link: </p>
+					<p style="color: aquamarine;">https://alexeynovomlinets.github.io/web-api/</p>
+					<a href="https://github.com/AurelioDeRosa/HTML5-API-demos">More Demo</a>
+				</section>
 			</div>
 		</div>
 
